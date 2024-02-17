@@ -1,22 +1,90 @@
 {% extends '_base.html' %}
 
 {% block title %}
-  My Tasks
+  Social | Keshtezar
+{% endblock %}
+
+{% block extra_css %}
+  <style>
+    /* Body and Container Styles */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+    #posts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1 {
+      grid-column: 1 / -1; /* Span all columns */
+      margin-bottom: 20px;
+      text-align: center;
+      text-decoration: underline;
+    }
+    
+    /* Article Styles */
+    .post {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    
+    .post h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .image-container {
+      display: flex;
+      justify-content: center;
+    }
+    .post img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .post p {
+      text-align: justify;
+    }
+  </style>
 {% endblock %}
 
 {% block content %}
-  <form hx-post="{% url 'task_add' %}" hx-target="#tasks">
-    {% csrf_token %}
-    <input type="text" name="title" placeholder="Title" required />
-    <textarea name="description" required>Description</textarea>
-    <input type="submit" value="Submit" />
-  </form>
-  <div id="tasks">
-    <h1>My Tasks</h1>
+  <div class="container">
+    <form method="post" action="{% url 'task_add' %}">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" name="title" required />
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Post</button>
+    </form>
+  </div>
+
+  <div class="my-3 p-3 bg-body rounded shadow-sm" id="posts">
     {% for task in tasks %}
-      {{ task }}
-      {% empty %}
-      <p>No tasks yet.</p>
+      <div class="post">
+        <div class="d-flex text-muted pt-3">
+          <div class="pb-3 mb-0 small lh-sm border-bottom">
+            <strong class="d-block text-gray-dark">{{ task.title }}</strong>
+            <a href="{% url 'task_detail' task.id %}" class="text-decoration-none text-dark">{{ task.description|linebreaks }}</a>
+          </div>
+        </div>
+
+        {% if page_obj.has_next and forloop.last %}
+          <span hx-get="{% url 'task_list' %}?page={{ page_obj.next_page_number }}" hx-swap="beforeend" hx-target="#posts" hx-select=".post" hx-trigger="revealed"></span>
+        {% endif %}
+      </div>
     {% endfor %}
   </div>
 {% endblock %}

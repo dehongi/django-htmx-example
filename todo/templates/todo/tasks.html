@@ -11,12 +11,5 @@
     <textarea name="description" required>Description</textarea>
     <input type="submit" value="Submit" />
   </form>
-  <div id="tasks">
-    <h1>My Tasks</h1>
-    {% for task in tasks %}
-      {{ task }}
-      {% empty %}
-      <p>No tasks yet.</p>
-    {% endfor %}
-  </div>
+  <div id="tasks"></div>
 {% endblock %}
