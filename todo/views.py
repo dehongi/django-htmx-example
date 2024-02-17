@@ -10,6 +10,7 @@ from .forms import TaskForm
 
 class TaskListView(generic.ListView):
     model = Task
+    context_object_name = "tasks"
 
 
 class TaskCreateView(generic.CreateView):

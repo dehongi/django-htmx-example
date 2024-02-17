@@ -1,0 +1,22 @@
+{% extends '_base.html' %}
+
+{% block title %}
+  My Tasks
+{% endblock %}
+
+{% block content %}
+  <form hx-post="{% url 'task_add' %}" hx-target="#tasks">
+    {% csrf_token %}
+    <input type="text" name="title" placeholder="Title" required />
+    <textarea name="description" required>Description</textarea>
+    <input type="submit" value="Submit" />
+  </form>
+  <div id="tasks">
+    <h1>My Tasks</h1>
+    {% for task in tasks %}
+      {{ task }}
+      {% empty %}
+      <p>No tasks yet.</p>
+    {% endfor %}
+  </div>
+{% endblock %}
