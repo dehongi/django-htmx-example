@@ -57,21 +57,15 @@
 
 {% block content %}
   <div class="container">
-    <h1>Add a Task</h1>
+    <h1>My Tasks</h1>
+    <button hx-get="{% url 'task_add' %}" hx-target="#modals-here" hx-trigger="click" data-bs-toggle="modal" data-bs-target="#modals-here" class="btn btn-primary">New Task</button>
 
+    <div id="modals-here" class="modal modal-blur fade" style="display: none" aria-hidden="false" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content"></div>
+      </div>
+    </div>
     <hr />
-    <form method="post" action="{% url 'task_add' %}" hx-post="{% url 'task_add' %}">
-      {% csrf_token %}
-      <div class="mb-3">
-        <label for="title" class="form-label">Title</label>
-        <input type="text" class="form-control" id="title" name="title" required />
-      </div>
-      <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary" hx-trigger="submit">Post</button>
-    </form>
   </div>
   <div class="container">
     <div class="my-3 p-3 bg-body rounded shadow-sm" id="posts">

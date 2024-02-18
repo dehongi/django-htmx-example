@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse
 
 from django.views import generic
 
@@ -17,6 +18,9 @@ class TaskListView(generic.ListView):
 class TaskCreateView(generic.CreateView):
     model = Task
     form_class = TaskForm
+
+    def get_success_url(self) -> str:
+        return reverse("task_list")
 
 
 class TaskDetailView(generic.DetailView):
