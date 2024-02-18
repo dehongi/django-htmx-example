@@ -1,0 +1,6 @@
+<div class="d-flex text-muted pt-3">
+  <div class="pb-3 mb-0 small lh-sm border-bottom">
+    <strong class="d-block text-gray-dark">{{ task.title }}</strong>
+    <a href="{% url 'task_detail' task.id %}" class="text-decoration-none text-dark">{{ task.description|linebreaks }}</a>
+  </div>
+</div>
