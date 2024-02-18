@@ -1,7 +1,7 @@
 {% extends '_base.html' %}
 
 {% block title %}
-  Social | Keshtezar
+  Tasks | Todos
 {% endblock %}
 
 {% block extra_css %}
@@ -57,6 +57,7 @@
 
 {% block content %}
   <div class="container">
+    <h1>Add a Task</h1>
     <form method="post" action="{% url 'task_add' %}">
       {% csrf_token %}
       <div class="mb-3">
@@ -70,21 +71,22 @@
       <button type="submit" class="btn btn-primary">Post</button>
     </form>
   </div>
-
-  <div class="my-3 p-3 bg-body rounded shadow-sm" id="posts">
-    {% for task in tasks %}
-      <div class="post">
-        <div class="d-flex text-muted pt-3">
-          <div class="pb-3 mb-0 small lh-sm border-bottom">
-            <strong class="d-block text-gray-dark">{{ task.title }}</strong>
-            <a href="{% url 'task_detail' task.id %}" class="text-decoration-none text-dark">{{ task.description|linebreaks }}</a>
+  <div class="container">
+    <div class="my-3 p-3 bg-body rounded shadow-sm" id="posts">
+      {% for task in tasks %}
+        <div class="post">
+          <div class="d-flex text-muted pt-3">
+            <div class="pb-3 mb-0 small lh-sm border-bottom">
+              <strong class="d-block text-gray-dark">{{ task.title }}</strong>
+              <a href="{% url 'task_detail' task.id %}" class="text-decoration-none text-dark">{{ task.description|linebreaks }}</a>
+            </div>
           </div>
-        </div>
 
-        {% if page_obj.has_next and forloop.last %}
-          <span hx-get="{% url 'task_list' %}?page={{ page_obj.next_page_number }}" hx-swap="beforeend" hx-target="#posts" hx-select=".post" hx-trigger="revealed"></span>
-        {% endif %}
-      </div>
-    {% endfor %}
+          {% if page_obj.has_next and forloop.last %}
+            <span hx-get="{% url 'task_list' %}?page={{ page_obj.next_page_number }}" hx-swap="beforeend" hx-target="#posts" hx-select=".post" hx-trigger="revealed"></span>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
   </div>
 {% endblock %}
