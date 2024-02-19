@@ -1,6 +1,17 @@
-<div class="d-flex text-muted pt-3">
-  <div class="pb-3 mb-0 small lh-sm border-bottom">
-    <strong class="d-block text-gray-dark">{{ task.title }}</strong>
-    <a href="{% url 'task_detail' task.id %}" class="text-decoration-none text-dark">{{ task.description|linebreaks }}</a>
+{% extends '_base.html' %}
+
+{% block title %}
+  {{ task.title }}
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="d-flex text-muted pt-3">
+      <div class="pb-3 mb-0 small lh-sm border-bottom">
+        <h1 class="d-block text-gray-dark">{{ task.title }}</h1>
+        <button hx-post="{% url 'mark_task_completed' task.id %}">Mark Completed</button>
+        <a href="{% url 'task_detail' task.id %}" class="text-decoration-none text-dark">{{ task.description|linebreaks }}</a>
+      </div>
+    </div>
   </div>
-</div>
+{% endblock %}
